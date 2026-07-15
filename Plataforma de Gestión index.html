@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA TUTORIAS - INA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #1e293b;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #38bdf8;
+            font-size: 24px;
+            border-bottom: 2px solid #0284c7;
+            padding-bottom: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 6px;
+            font-size: 16px;
+            color: #f8fafc;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0369a1;
+        }
+
+        .resultado-box {
+            margin-top: 25px;
+            background-color: #0f172a;
+            padding: 20px;
+            border-left: 4px solid #4ade80;
+            border-radius: 6px;
+            display: none; /* Se activa con la función JS de abajo */
+        }
+
+        .resultado-linea {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+            color: #cbd5e1;
+        }
+
+        .resultado-linea.success {
+            font-weight: bold;
+            font-size: 18px;
+            color: #4ade80;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Reserva de Tutorías Académicas</h2>
+    
+    <div class="form-group">
+        <label for="nombreEstudiante">Nombre del Estudiante:</label>
+        <input type="text" id="nombreEstudiante" placeholder="Ej. Miguel Alas" required>
+    </div>
+
+    <div class="form-group">
+        <label for="tutorSeleccionado">Seleccionar Tutor y Materia:</label>
+        <select id="tutorSeleccionado">
+            <option value="Lic. Marvin Ramos - Desarrollo Web">Lic. Marvin Ramos (Desarrollo Web)</option>
+            <option value="Ing. Daniel Fuentes - Bases de Datos">Ing. Daniel Fuentes (Bases de Datos)</option>
+            <option value="Inga. Carmen Ayala - Programación en Java">Inga. Carmen Ayala (Programación en Java)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="horarioTutoría">Horario Disponible:</label>
+        <select id="horarioTutoría">
+            <option value="Lunes de 1:00 PM a 2:30 PM">Lunes de 1:00 PM a 2:30 PM</option>
+            <option value="Miércoles de 8:30 AM a 10:00 AM">Miércoles de 8:30 AM a 10:00 AM</option>
+            <option value="Viernes de 2:00 PM a 3:30 PM">Viernes de 2:00 PM a 3:30 PM</option>
+        </select>
+    </div>
+
+    <button onclick="agendarTutoria()">Reservar Sesión Académica</button>
+
+    <div id="resultadoBox" class="resultado-box">
+        <div class="resultado-linea success">
+            <span>¡Reserva Confirmada Exitosamente!</span>
+        </div>
+        <div class="resultado-linea">
+            <span>Estudiante:</span>
+            <span id="resEstudiante">-</span>
+        </div>
+        <div class="resultado-linea">
+            <span>Tutor Académico:</span>
+            <span id="resTutor">-</span>
+        </div>
+        <div class="resultado-linea">
+            <span>Horario Asignado:</span>
+            <span id="resHorario">-</span>
+        </div>
+    </div>
+</div>
+
+<!-- Lógica de programación incrustada directamente -->
+<script>
+function agendarTutoria() {
+    const inputEstudiante = document.getElementById("nombreEstudiante");
+    const tutorSeleccionado = document.getElementById("tutorSeleccionado").value;
+    const horarioTutoría = document.getElementById("horarioTutoría").value;
+
+    const nombreEstudiante = inputEstudiante.value.trim();
+
+    // Si el campo está vacío, manda una alerta
+    if (nombreEstudiante === "") {
+        alert("Por favor, ingrese el nombre del estudiante para procesar la tutoría.");
+        return;
+    }
+
+    // Inyecta los textos seleccionados en el contenedor de abajo
+    document.getElementById("resEstudiante").innerText = nombreEstudiante;
+    document.getElementById("resTutor").innerText = tutorSeleccionado;
+    document.getElementById("resHorario").innerText = horarioTutoría;
+
+    // Hace visible la caja de resultados cambiando el "display"
+    const resultadoBox = document.getElementById("resultadoBox");
+    resultadoBox.style.display = "block";
+
+    // Limpia el input para que quede elegante
+    inputEstudiante.value = "";
+}
+</script>
+</body>
+</html>
